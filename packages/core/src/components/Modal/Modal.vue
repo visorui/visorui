@@ -1,0 +1,106 @@
+<script setup lang="ts">
+import { ref, watch, onMounted, onUnmounted, Ref } from 'vue'
+import { createFocusTrap } from 'focus-trap'
+import type { FocusTrap, Options } from 'focus-trap'
+import { provideModal } from '../../composables/useModal'
+
+const props = withDefaults(
+  defineProps<{
+    as?: string
+    to?: string
+    modelValue?: boolean
+    initialFocus?: Options['initialFocus']
+  }>(),
+  {
+    as: 'div',
+    to: 'body'
+  }
+)
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: boolean): void
+  (e: 'show'): void
+  (e: 'hide'): void
+}>()
+
+const { isVisible, show, hide, titleId } = provideModal()
+const modalElement = ref()
+let trap: undefined | FocusTrap
+
+watch(
+  modalElement,
+  (el) => {
+    if (el) {
+      trap = createFocusTrap(
+        modalElement.value,
+        props.initialFocus
+          ? {
+              initialFocus: props.initialFocus
+            }
+          : {}
+      )
+      trap.activate()
+    } else {
+      trap?.deactivate()
+    }
+  },
+  { flush: 'post' }
+)
+
+watch(
+  () => props.modelValue,
+  (value, oldValue) => {
+    if (!oldValue && value) {
+      show()
+      emit('show')
+    } else if (oldValue && !value) {
+      hide()
+      emit('hide')
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  isVisible,
+  (value) => {
+    emit('update:modelValue', value)
+  },
+  { immediate: true }
+)
+
+onMounted(() => {
+  window.addEventListener('keydown', (e: KeyboardEvent) => {
+    if (e.key !== 'Escape' || !isVisible.value) return
+    e.stopPropagation()
+    e.preventDefault()
+    hide()
+  })
+})
+
+onUnmounted(() => trap?.deactivate())
+</script>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  inheritAttrs: false
+})
+</script>
+
+<template>
+  <teleport :to="to">
+    <component
+      ref="modalElement"
+      :is="as"
+      v-bind="$attrs"
+      v-if="isVisible"
+      role="dialog"
+      aria-modal="true"
+      :aria-labelledby="titleId"
+    >
+      <slot />
+    </component>
+  </teleport>
+</template>
