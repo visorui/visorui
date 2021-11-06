@@ -1,3 +1,3 @@
 # VisorUI
 
-> The renderless component library for Vue 3
+> The renderless and fully accessible component library for Vue 3.
