@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch, onMounted, onUnmounted, Ref } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { createFocusTrap } from 'focus-trap'
 import type { FocusTrap, Options } from 'focus-trap'
 import { provideModal } from '../../composables/useModal'
@@ -23,7 +23,7 @@ const emit = defineEmits<{
   (e: 'hide'): void
 }>()
 
-const { isVisible, show, hide, titleId } = provideModal()
+const { isVisible, show, hide, titleId, descriptionId } = provideModal()
 const modalElement = ref()
 let trap: undefined | FocusTrap
 
@@ -99,6 +99,7 @@ export default defineComponent({
       role="dialog"
       aria-modal="true"
       :aria-labelledby="titleId"
+      :aria-describedby="descriptionId"
     >
       <slot />
     </component>

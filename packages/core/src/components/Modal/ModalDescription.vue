@@ -9,27 +9,29 @@ const props = withDefaults(
     id?: string
   }>(),
   {
-    as: 'h2'
+    as: 'p'
   }
 )
 
-const { registerTitle, unregisterTitle, titleId } = useModal()
+const { registerDescription, unregisterDescription, descriptionId } = useModal()
 
 watch(
   () => props.id,
   () => {
-    registerTitle(props.id ? props.id : `modal-title-${useGlobalId()}`)
+    registerDescription(
+      props.id ? props.id : `modal-description-${useGlobalId()}`
+    )
   },
   { immediate: true }
 )
 
 onUnmounted(() => {
-  unregisterTitle()
+  unregisterDescription()
 })
 </script>
 
 <template>
-  <component :id="titleId" :is="as">
+  <component :id="descriptionId" :is="as">
     <slot />
   </component>
 </template>
