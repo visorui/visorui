@@ -82,20 +82,18 @@ onUnmounted(() => trap?.deactivate())
 </script>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   inheritAttrs: false
-})
+}
 </script>
 
 <template>
   <teleport :to="to">
     <component
-      ref="modalElement"
       :is="as"
-      v-bind="$attrs"
       v-if="isVisible"
+      ref="modalElement"
+      v-bind="$attrs"
       role="dialog"
       aria-modal="true"
       :aria-labelledby="titleId"

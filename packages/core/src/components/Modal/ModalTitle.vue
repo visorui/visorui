@@ -29,7 +29,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <component :id="titleId" :is="as">
+  <component :is="as" :id="titleId">
     <slot />
   </component>
 </template>

@@ -1,5 +1,5 @@
-import { build, InlineConfig } from 'vite'
 import { resolve } from 'path'
+import { build, InlineConfig } from 'vite'
 import { copy, remove, readdirSync, statSync } from 'fs-extra'
 import Vue from '@vitejs/plugin-vue'
 import Dts from 'vite-plugin-dts'
@@ -8,7 +8,7 @@ import chalk from 'chalk'
 
 const packagesDir = resolve(__dirname, '../packages')
 const packages = readdirSync(packagesDir).filter((name) =>
-    statSync(resolve(packagesDir, name)).isDirectory()
+  statSync(resolve(packagesDir, name)).isDirectory()
 )
 
 async function main() {
@@ -39,6 +39,7 @@ async function bundleDts(name: string) {
 }
 
 function createPackageConfig(name: string): InlineConfig {
+  /* eslint-disable @typescript-eslint/no-var-requires */
   const pkg = require(resolve(packagesDir, name, 'package.json'))
   const external = [
     ...Object.keys(pkg.dependencies || {}),

@@ -13,13 +13,13 @@ const openModal = () => (isVisible.value = true)
 
 <template>
   <Modal
-    class="fixed inset-0 z-20 flex items-center justify-center"
     v-model="isVisible"
+    class="fixed inset-0 z-20 flex items-center justify-center"
   >
     <transition name="fade" appear>
       <ModalOverlay
-        class="fixed inset-0 bg-black bg-opacity-50"
         v-if="isVisible"
+        class="fixed inset-0 bg-black bg-opacity-50"
       />
     </transition>
     <transition name="slide" appear>

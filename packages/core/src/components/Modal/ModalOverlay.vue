@@ -19,5 +19,5 @@ const onClick = (e: Event) => {
 </script>
 
 <template>
-  <component :is="as" @click="onClick" aria-hidden="true" />
+  <component :is="as" aria-hidden="true" @click="onClick" />
 </template>
