@@ -31,15 +31,21 @@ watch(
   modalElement,
   (el) => {
     if (el) {
-      trap = createFocusTrap(
-        modalElement.value,
-        props.initialFocus
-          ? {
-              initialFocus: props.initialFocus
-            }
-          : {}
-      )
-      trap.activate()
+      try {
+        trap = createFocusTrap(
+          modalElement.value,
+          props.initialFocus
+            ? {
+                initialFocus: props.initialFocus
+              }
+            : {}
+        )
+        trap.activate()
+      } catch (e) {
+        console.warn(
+          'No focusable element found. You should add one for accessibility reasons.'
+        )
+      }
     } else {
       trap?.deactivate()
     }
@@ -82,9 +88,11 @@ onUnmounted(() => trap?.deactivate())
 </script>
 
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue'
+
+export default defineComponent({
   inheritAttrs: false
-}
+})
 </script>
 
 <template>
