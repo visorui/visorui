@@ -88,11 +88,9 @@ onUnmounted(() => trap?.deactivate())
 </script>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-
-export default defineComponent({
+export default {
   inheritAttrs: false
-})
+}
 </script>
 
 <template>
