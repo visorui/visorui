@@ -1,17 +1,22 @@
 import { defineComponent, ref, nextTick } from 'vue'
 import { render, waitFor, fireEvent } from '@testing-library/vue'
 import userEvent from '@testing-library/user-event'
-import Modal from '../../../src/components/Modal/Modal.vue'
+import {
+  Modal,
+  ModalDescription,
+  ModalOverlay,
+  ModalTitle
+} from '../../src/components/Modal'
 
 const renderModal = (component?: ReturnType<typeof defineComponent>) =>
   render(
     defineComponent({
-      components: { Modal },
+      components: { Modal, ModalDescription, ModalOverlay, ModalTitle },
       setup() {
         return { isVisible: ref(true) }
       },
       template: `
-        <Modal v-model="isVisible">
+        <Modal data-testid="modal" v-model="isVisible">
           <button>content</button>
         </Modal>
       `,
@@ -63,23 +68,20 @@ describe('Modal', () => {
   it('should render with custom tag', () => {
     const component = defineComponent({
       template: `
-        <Modal v-model="isVisible" as="section">
+        <Modal data-testid="modal" v-model="isVisible" as="section">
           <button>content</button>
         </Modal>
       `
     })
 
-    const { getByText } = renderModal(component)
-    const content = getByText('content')
-
-    expect(content.parentElement?.tagName.toLowerCase()).toBe('section')
+    const { getByTestId } = renderModal(component)
+    expect(getByTestId('modal').tagName.toLowerCase()).toBe('section')
   })
 
   it('should render to body by default', () => {
-    const { getByText } = renderModal()
-    const content = getByText('content')
+    const { getByTestId } = renderModal()
 
-    expect(content.parentElement?.parentElement?.tagName.toLowerCase()).toBe(
+    expect(getByTestId('modal').parentElement?.tagName.toLowerCase()).toBe(
       'body'
     )
   })
@@ -259,5 +261,169 @@ describe('Modal', () => {
 
     await fireEvent.keyDown(window, { key: 'Escape' })
     expect(queryByText('content')).not.toBeInTheDocument()
+  })
+
+  it('should register title and set `aria-labelledby` on Modal', async () => {
+    const component = defineComponent({
+      template: `
+        <Modal data-testid="modal" v-model="isVisible">
+          <ModalTitle />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+    await nextTick()
+    expect(getByTestId('modal')).toHaveAttribute(
+      'aria-labelledby',
+      expect.stringMatching(/modal-title-/)
+    )
+  })
+
+  it('should register description and set `aria-describedby` on Modal', async () => {
+    const component = defineComponent({
+      template: `
+        <Modal data-testid="modal" v-model="isVisible">
+          <ModalDescription />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+    await nextTick()
+    expect(getByTestId('modal')).toHaveAttribute(
+      'aria-describedby',
+      expect.stringMatching(/modal-description-/)
+    )
+  })
+})
+
+describe('ModalOverlay', () => {
+  it('should render with custom tag', () => {
+    const component = defineComponent({
+      template: `
+        <Modal v-model="isVisible">
+          <ModalOverlay data-testid="overlay" as="section" />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+    const overlay = getByTestId('overlay')
+
+    expect(overlay.tagName.toLowerCase()).toBe('section')
+  })
+
+  it('should hide modal if the user clicks on the overlay', async () => {
+    const component = defineComponent({
+      template: `
+        <Modal v-model="isVisible">
+          <ModalOverlay data-testid="overlay" />
+          <button>content</button>
+        </Modal>
+      `
+    })
+
+    const { getByTestId, queryByText } = renderModal(component)
+    const overlay = getByTestId('overlay')
+    overlay.click()
+
+    await nextTick()
+
+    expect(queryByText('content')).not.toBeInTheDocument()
+  })
+
+  it('should throw error if not inside Modal', () => {
+    expect(() => render(ModalOverlay)).toThrowError('Modal not provided.')
+  })
+})
+
+describe('ModalTitle', () => {
+  it('should render with custom tag', () => {
+    const component = defineComponent({
+      template: `
+        <Modal v-model="isVisible">
+          <ModalTitle data-testid="title" as="section" />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+
+    expect(getByTestId('title').tagName.toLowerCase()).toBe('section')
+  })
+
+  it('should throw error if not inside Modal', () => {
+    expect(() => render(ModalTitle)).toThrowError('Modal not provided.')
+  })
+
+  it('should unregister and remove `aria-labelledby` from Modal when unmounted', async () => {
+    const component = defineComponent({
+      setup() {
+        return {
+          isVisible: ref(true),
+          showTitle: ref(true)
+        }
+      },
+      template: `
+        <Modal data-testid="modal" v-model="isVisible">
+          <ModalTitle v-if="showTitle" />
+          <button @click="showTitle = false">unmount title</button>
+        </Modal>
+      `
+    })
+
+    const { getByTestId, getByText } = renderModal(component)
+    const unmountButton = getByText('unmount title')
+
+    // Unmount title component
+    unmountButton.click()
+
+    expect(getByTestId('modal')).not.toHaveAttribute('aria-labelledby')
+  })
+})
+
+describe('ModalDescription', () => {
+  it('should render with custom tag', () => {
+    const component = defineComponent({
+      template: `
+        <Modal v-model="isVisible">
+          <ModalDescription data-testid="description" as="section" />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+
+    expect(getByTestId('description').tagName.toLowerCase()).toBe('section')
+  })
+
+  it('should throw error if not inside Modal', () => {
+    expect(() => render(ModalDescription)).toThrowError('Modal not provided.')
+  })
+
+  it('should unregister and remove `aria-describedby` from Modal when unmounted', async () => {
+    const component = defineComponent({
+      setup() {
+        return {
+          isVisible: ref(true),
+          showDescription: ref(true)
+        }
+      },
+      template: `
+        <Modal data-testid="modal" v-model="isVisible">
+          <ModalDescription v-if="showDescription" />
+          <button @click="showDescription = false">unmount description</button>
+        </Modal>
+      `
+    })
+
+    const { getByTestId, getByText } = renderModal(component)
+    const unmountButton = getByText('unmount description')
+
+    // Unmount description component
+    unmountButton.click()
+
+    expect(getByTestId('modal')).not.toHaveAttribute('aria-describedby')
   })
 })
