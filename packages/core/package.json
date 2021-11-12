@@ -16,7 +16,7 @@
   "module": "src/core.es.js",
   "types": "./dist/core.d.ts",
   "files": [
-    "src",
+    "dist",
     "src"
   ],
   "exports": {
