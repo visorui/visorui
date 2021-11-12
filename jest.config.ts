@@ -7,7 +7,8 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: ['./scripts/setupJestEnv.ts'],
   transform: {
     '^.+\\.vue$': '@vue/vue3-jest'
-  }
+  },
+  collectCoverage: true
 }
 
 export default config
