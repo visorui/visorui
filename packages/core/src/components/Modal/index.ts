@@ -1,0 +1,8 @@
+export * from './Modal.vue'
+export * from './ModalDescription.vue'
+export * from './ModalOverlay.vue'
+export * from './ModalTitle.vue'
+export { default as Modal } from './Modal.vue'
+export { default as ModalDescription } from './ModalDescription.vue'
+export { default as ModalOverlay } from './ModalOverlay.vue'
+export { default as ModalTitle } from './ModalTitle.vue'
