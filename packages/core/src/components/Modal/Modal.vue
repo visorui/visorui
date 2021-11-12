@@ -75,16 +75,21 @@ watch(
   { immediate: true }
 )
 
+const escapeEventListener = (e: KeyboardEvent) => {
+  if (e.key !== 'Escape' || !isVisible.value) return
+  e.stopPropagation()
+  e.preventDefault()
+  hide()
+}
+
 onMounted(() => {
-  window.addEventListener('keydown', (e: KeyboardEvent) => {
-    if (e.key !== 'Escape' || !isVisible.value) return
-    e.stopPropagation()
-    e.preventDefault()
-    hide()
-  })
+  window.addEventListener('keydown', escapeEventListener)
 })
 
-onUnmounted(() => trap?.deactivate())
+onUnmounted(() => {
+  trap?.deactivate()
+  window.removeEventListener('keydown', escapeEventListener)
+})
 </script>
 
 <script lang="ts">
