@@ -381,6 +381,24 @@ describe('ModalTitle', () => {
 
     expect(getByTestId('modal')).not.toHaveAttribute('aria-labelledby')
   })
+
+  it('should set custom id', async () => {
+    const component = defineComponent({
+      template: `
+        <Modal data-testid="modal" v-model="isVisible">
+          <ModalTitle data-testid="title" id="custom-title-1" />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+    await nextTick()
+
+    expect(getByTestId('modal')).toHaveAttribute(
+      'aria-labelledby',
+      getByTestId('title').id
+    )
+  })
 })
 
 describe('ModalDescription', () => {
@@ -425,5 +443,23 @@ describe('ModalDescription', () => {
     unmountButton.click()
 
     expect(getByTestId('modal')).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('should set custom id', async () => {
+    const component = defineComponent({
+      template: `
+        <Modal data-testid="modal" v-model="isVisible">
+          <ModalDescription data-testid="description" id="custom-description-1" />
+        </Modal>
+      `
+    })
+
+    const { getByTestId } = renderModal(component)
+    await nextTick()
+
+    expect(getByTestId('modal')).toHaveAttribute(
+      'aria-describedby',
+      getByTestId('description').id
+    )
   })
 })
