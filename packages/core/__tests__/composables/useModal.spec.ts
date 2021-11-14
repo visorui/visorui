@@ -20,7 +20,7 @@ describe('createModal', () => {
   })
 
   it('should throw error if `titleId` is already set', () => {
-    const { registerTitle, titleId } = createModal()
+    const { registerTitle } = createModal()
     registerTitle('test')
     expect(() => registerTitle('foo')).toThrowError(
       'You cannot have more than one title per modal.'
@@ -42,7 +42,7 @@ describe('createModal', () => {
   })
 
   it('should throw error if `descriptionId` is already set', () => {
-    const { registerDescription, descriptionId } = createModal()
+    const { registerDescription } = createModal()
     registerDescription('test')
     expect(() => registerDescription('foo')).toThrowError(
       'You cannot have more than one description per modal.'
