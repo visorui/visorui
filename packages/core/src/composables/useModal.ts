@@ -1,56 +1,49 @@
-import { provide, inject, ref, computed, ComputedRef, InjectionKey } from 'vue'
+import { provide, inject, ref, computed, InjectionKey } from 'vue'
 
-export interface ModalAPI {
-  isVisible: ComputedRef<boolean>
-  titleId: ComputedRef<string | undefined>
-  descriptionId: ComputedRef<string | undefined>
-  show(): void
-  hide(): void
-  registerTitle(id: string): void
-  unregisterTitle(): void
-  registerDescription(id: string): void
-  unregisterDescription(): void
-}
-
-const modalKey: InjectionKey<ModalAPI> = Symbol('Modal')
-
-export function createModal(): ModalAPI {
+export function createModal() {
   const isVisible = ref(false)
   const titleId = ref<string>()
   const descriptionId = ref<string>()
+
+  const show = () => (isVisible.value = true)
+  const hide = () => (isVisible.value = false)
+
+  const registerTitle = (id: string) => {
+    if (titleId.value) {
+      throw new Error('You cannot have more than one title per modal.')
+    }
+
+    titleId.value = id
+  }
+
+  const unregisterTitle = () => (titleId.value = undefined)
+
+  const registerDescription = (id: string) => {
+    if (descriptionId.value) {
+      throw new Error('You cannot have more than one description per modal.')
+    }
+
+    descriptionId.value = id
+  }
+
+  const unregisterDescription = () => (descriptionId.value = undefined)
 
   return {
     isVisible: computed(() => isVisible.value),
     titleId: computed(() => titleId.value),
     descriptionId: computed(() => descriptionId.value),
-    show() {
-      isVisible.value = true
-    },
-    hide() {
-      isVisible.value = false
-    },
-    registerTitle(id) {
-      if (titleId.value) {
-        throw new Error('You cannot have more than one title per modal.')
-      }
-
-      titleId.value = id
-    },
-    unregisterTitle() {
-      titleId.value = undefined
-    },
-    registerDescription(id) {
-      if (descriptionId.value) {
-        throw new Error('You cannot have more than one description per modal.')
-      }
-
-      descriptionId.value = id
-    },
-    unregisterDescription() {
-      descriptionId.value = undefined
-    }
+    show,
+    hide,
+    registerTitle,
+    unregisterTitle,
+    registerDescription,
+    unregisterDescription
   }
 }
+
+export type ModalAPI = ReturnType<typeof createModal>
+
+const modalKey: InjectionKey<ModalAPI> = Symbol('Modal')
 
 export function provideModal() {
   const modal = createModal()
