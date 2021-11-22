@@ -5,7 +5,7 @@ import {
   provideAccordionItem
 } from '../../composables/useAccordion'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     as?: string
   }>(),

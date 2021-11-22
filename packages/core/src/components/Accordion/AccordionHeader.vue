@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { useAccordion, useAccordionItem } from '../../composables/useAccordion'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     as?: string
   }>(),
