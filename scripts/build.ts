@@ -4,7 +4,7 @@ import { copy, remove, readdirSync, statSync } from 'fs-extra'
 import Vue from '@vitejs/plugin-vue'
 import Dts from 'vite-plugin-dts'
 import { $ } from 'zx'
-import chalk from 'chalk'
+import kleur from 'kleur'
 
 const packagesDir = resolve(__dirname, '../packages')
 const packages = readdirSync(packagesDir).filter((name) =>
@@ -21,13 +21,15 @@ async function main() {
 }
 
 async function buildPackage(name: string) {
-  console.log(chalk.bold.cyan(`Building package ${name}...`))
+  console.log(kleur.bold().cyan(`Building package ${name}...`))
 
   try {
     await build(createPackageConfig(name))
-    console.log(chalk.bold.green(`Successfully built package ${name}.`))
+    console.log(kleur.bold().green(`Successfully built package ${name}.`))
   } catch (e) {
-    console.log(chalk.bold.red(`Failed while building package ${name}:\n${e}`))
+    console.log(
+      kleur.bold().red(`Failed while building package ${name}:\n${e}`)
+    )
   }
 }
 

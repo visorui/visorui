@@ -19,7 +19,6 @@ importers:
       '@vue/vue3-jest': 27.0.0-alpha.3
       babel-jest: ^27.3.1
       bumpp: ^7.1.1
-      chalk: ^4.1.2
       esbuild: ^0.13.12
       esbuild-register: ^3.0.0
       eslint: ^7.32.0
@@ -35,6 +34,7 @@ importers:
       fs-extra: ^10.0.0
       husky: ^7.0.0
       jest: ^27.3.1
+      kleur: ^4.1.4
       lint-staged: ^11.2.6
       prettier: ^2.4.1
       rollup: ^2.59.0
@@ -64,7 +64,6 @@ importers:
       '@vue/vue3-jest': 27.0.0-alpha.3_74f9059ee6ae7f9c90ab343acdd062b2
       babel-jest: 27.3.1_@babel+core@7.16.0
       bumpp: 7.1.1
-      chalk: 4.1.2
       esbuild: 0.13.12
       esbuild-register: 3.0.0_esbuild@0.13.12
       eslint: 7.32.0
@@ -80,6 +79,7 @@ importers:
       fs-extra: 10.0.0
       husky: 7.0.4
       jest: 27.3.1_ts-node@10.4.0
+      kleur: 4.1.4
       lint-staged: 11.2.6
       prettier: 2.4.1
       rollup: 2.59.0
@@ -3966,6 +3966,11 @@ packages:
 
   /kleur/3.0.3:
     resolution: {integrity: sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==}
+    engines: {node: '>=6'}
+    dev: true
+
+  /kleur/4.1.4:
+    resolution: {integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==}
     engines: {node: '>=6'}
     dev: true
 
