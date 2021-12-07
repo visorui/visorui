@@ -15,6 +15,7 @@
     "pre-commit": "lint-staged"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.12.2",
     "@babel/core": "^7.16.0",
     "@commitlint/cli": "^15.0.0",
     "@commitlint/config-conventional": "^15.0.0",

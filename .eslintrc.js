@@ -10,13 +10,7 @@ module.exports = {
     parser: '@typescript-eslint/parser',
     sourceType: 'module'
   },
-  extends: [
-    'standard',
-    'plugin:import/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:vue/vue3-recommended',
-    'prettier'
-  ],
+  extends: ['@antfu', 'prettier'],
   rules: {
     'import/named': 'off',
     'import/order': 'error',
