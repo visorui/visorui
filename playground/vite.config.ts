@@ -12,5 +12,8 @@ export default defineConfig({
         replacement: resolve(__dirname, '../packages/$1/src/$2')
       }
     ]
+  },
+  server: {
+    https: true
   }
 })
