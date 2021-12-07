@@ -48,6 +48,7 @@ importers:
       vite-plugin-dts: ^0.9.3
       vue: ^3.2.21
       vue-jest: ^5.0.0-alpha.10
+      vue-router: ^4.0.12
       vue-tsc: ^0.28.10
       zx: ^4.2.0
     devDependencies:
@@ -95,6 +96,7 @@ importers:
       vite-plugin-dts: 0.9.3_vite@2.6.13
       vue: 3.2.21
       vue-jest: 5.0.0-alpha.10_74f9059ee6ae7f9c90ab343acdd062b2
+      vue-router: 4.0.12_vue@3.2.21
       vue-tsc: 0.28.10_typescript@4.4.4
       zx: 4.2.0
 
@@ -1418,6 +1420,10 @@ packages:
     dependencies:
       '@vue/compiler-dom': 3.2.21
       '@vue/shared': 3.2.21
+    dev: true
+
+  /@vue/devtools-api/6.0.0-beta.20.1:
+    resolution: {integrity: sha512-R2rfiRY+kZugzWh9ZyITaovx+jpU4vgivAEAiz80kvh3yviiTU3CBuGuyWpSwGz9/C7TkSWVM/FtQRGlZ16n8Q==}
     dev: true
 
   /@vue/reactivity/3.2.21:
@@ -6084,6 +6090,15 @@ packages:
       vue: 3.2.21
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /vue-router/4.0.12_vue@3.2.21:
+    resolution: {integrity: sha512-CPXvfqe+mZLB1kBWssssTiWg4EQERyqJZes7USiqfW9B5N2x+nHlnsM1D3b5CaJ6qgCvMmYJnz+G0iWjNCvXrg==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@vue/devtools-api': 6.0.0-beta.20.1
+      vue: 3.2.21
     dev: true
 
   /vue-tsc/0.28.10_typescript@4.4.4:
